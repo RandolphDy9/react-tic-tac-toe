@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import Box from './components/Box';
-import ParticlesBackground from './components/ParticlesBackground';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Box from "./components/Box";
+import ParticlesBackground from "./components/ParticlesBackground";
 
 function App() {
-
   const [boxes, setBoxes] = useState(Array(9).fill(null));
   const [xIsNext, setXisNext] = useState(true);
-  const [status, setStatus] = useState('');
-  // const [resetGame, setResetGame] = useState(false);
+  const [status, setStatus] = useState("");
+  const [resetGame, setResetGame] = useState(false);
 
   useEffect(() => {
     const winner = checkWinner(boxes);
     if (winner) {
       const string = "Winner: " + winner;
       setStatus(string);
+      setResetGame(true);
     } else {
       const string = "Next Player: " + (xIsNext ? "X" : "O");
       setStatus(string);
@@ -44,7 +44,7 @@ function App() {
       [1, 4, 7],
       [2, 5, 8],
       [0, 4, 8],
-      [2, 4, 6]
+      [2, 4, 6],
     ];
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
@@ -63,17 +63,23 @@ function App() {
           <div className="heading">
             <div className="title">Welcome! Let's play..</div>
             <div className="highlight">Tic-Tac-Toe</div>
-            {/* <div className="options">
-              <div className="options-title">Game mode:</div>
-              <div className="radio-option">
-                <input type="radio" id="1" name="player" value="1Player" />
-                <label> 1 Player</label>
-              </div>
-              <div className="radio-option">
-                <input type="radio" id="2" name="player" value="2Players" />
-                <label> 2 Players</label>
-              </div>
-            </div> */}
+            <div className="direction">
+              <ol>
+                <li>
+                  Player 1 (X) starts by placing their marker (X) in any empty
+                  space on the grid.
+                </li>
+                <li>
+                  Player 2 (O) then places their marker (O) in any remaining
+                  empty space.
+                </li>
+                <li>
+                  Players take turns placing their markers until one player gets
+                  three of their markers in a row (horizontally, vertically, or
+                  diagonally) or until all spaces on the grid are filled.
+                </li>
+              </ol>
+            </div>
           </div>
           <div>
             <div className="row">
@@ -94,12 +100,16 @@ function App() {
           </div>
           <div>
             <div className="scoreboard">
-              <div className="player">{ status }</div>
+              <div className="player">{status}</div>
+              {resetGame && (
+                <div
+                  className="reset-game"
+                  onClick={() => setBoxes(Array(9).fill(null))}
+                >
+                  <small>Reset Game</small>
+                </div>
+              )}
             </div>
-            {/* <div className="scoreboard">
-              <div className="score-title">Score Board</div>
-              <div className="player">{ status }</div>
-            </div> */}
           </div>
         </div>
       </div>
